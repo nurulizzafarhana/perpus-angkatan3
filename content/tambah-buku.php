@@ -30,9 +30,10 @@ if (isset($_POST['edit'])) {
     $penerbit = $_POST['penerbit'];
     $tahun_terbit = $_POST['tahun_terbit'];
     $pengarang = $_POST['pengarang'];
+    $id_kategori = $_POST['id_kategori'];
 
     //update user, kolom apa yang mau diubah
-    $update = mysqli_query($koneksi, "UPDATE buku SET nama_buku='$nama_buku', penerbit='$penerbit', tahun_terbit='$tahun_terbit', pengarang='$pengarang' WHERE id='$id'");
+    $update = mysqli_query($koneksi, "UPDATE buku SET nama_buku='$nama_buku', penerbit='$penerbit', tahun_terbit='$tahun_terbit', pengarang='$pengarang', id_kategori='$id_kategori' WHERE id='$id'");
     header("location:?pg=buku&ubah=berhasil");
 }
 
