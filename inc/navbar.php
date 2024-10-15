@@ -15,6 +15,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="?pg=buku">Books</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="?pg=level">Level</a>
+                    </li>
                 </ul>
             </div>
         </div>
