@@ -10,7 +10,10 @@
                         <a class="nav-link" href="?pg=user">Manage Accounts</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="?pg=book">Manage Books</a>
+                        <a class="nav-link" href="?pg=kategori">Category</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="?pg=buku">Books</a>
                     </li>
                 </ul>
             </div>
