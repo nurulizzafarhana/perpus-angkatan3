@@ -4,12 +4,13 @@ if (isset($_POST['tambah'])) {
     $penerbit = $_POST['penerbit'];
     $tahun_terbit = $_POST['tahun_terbit'];
     $pengarang = $_POST['pengarang'];
+    $id_kategori = $_POST['id_kategori'];
 
     //SQL
     // DML = Data Manipulation Language (select, update, delete, insert)
 
     //INSERT
-    $insert = mysqli_query($koneksi, "INSERT INTO buku (nama_buku, penerbit, tahun_terbit, pengarang) VALUES ('$nama_buku', '$penerbit', '$tahun_terbit', '$pengarang')");
+    $insert = mysqli_query($koneksi, "INSERT INTO buku (nama_buku, penerbit, tahun_terbit, pengarang, id_kategori) VALUES ('$nama_buku', '$penerbit', '$tahun_terbit', '$pengarang', '$id_kategori')");
     header("location:?pg=buku&tambah=berhasil");
 
 
@@ -42,6 +43,10 @@ if (isset($_GET['delete'])) {
     $delete = mysqli_query($koneksi, "DELETE FROM buku WHERE id='$id'");
     header("location:?pg=buku&hapus=berhasil");
 }
+
+$queryKategori = mysqli_query($koneksi, "SELECT * FROM kategori");
+
+
 ?>
 
 <div class="mt-5 container">
@@ -49,6 +54,19 @@ if (isset($_GET['delete'])) {
         <legend class="float-none w-auto px-3"><?php echo isset($_GET['edit']) ? 'Edit' : 'Tambah' ?> Buku </legend>
 
         <form action="" method="POST">
+
+            <div class="mb-3">
+                <label for="" class="form-label">Nama Kategori</label>
+                <select name="id_kategori" id="" class="form-control">
+                    <option value="">Pilih Kategori</option>
+                    <?php while ($rowKategori = mysqli_fetch_assoc($queryKategori)): ?>
+                        <option <?php echo isset($_GET['edit']) ? ($rowKategori['id'] == $rowBuku['id_kategori'] ? 'selected' : '') : '' ?> value="<?php echo $rowKategori['id'] ?>">
+                            <?php echo $rowKategori['nama_kategori'] ?>
+                        </option>
+                    <?php endwhile ?>
+                </select>
+            </div>
+
             <div class="mb-3">
                 <label for="" class="form-label">Nama Buku</label>
                 <input type="text" class="form-control" name="nama_buku" placeholder="Masukkan nama buku"
