@@ -1,5 +1,10 @@
 <?php
 session_start();
+
+// jika belum login, tidak bisa mengakses page index.php
+if (empty($_SESSION['NAMA'])) {
+  header("location:login.php?access=failed");
+}
 include 'koneksi.php';
 ?>
 
@@ -50,6 +55,8 @@ include 'koneksi.php';
     require_once "inc/footer.php";
     ?>
   </div>
+  <script src="assets/dist/js/bootstrap.min.js"></script>
+  <script src="app.js"></script>
 </body>
 
 </html>
