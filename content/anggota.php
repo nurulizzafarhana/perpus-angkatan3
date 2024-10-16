@@ -4,7 +4,7 @@ $anggota = mysqli_query($koneksi, "SELECT * FROM anggota ORDER BY id DESC");
 
 <div class="mt-5 container">
     <fieldset class="border p-3 border-black border-2">
-        <legend class="float-none w-auto px-3">Anggota</legend>
+        <legend class="float-none w-auto px-3">Data Anggota</legend>
         <div align="right">
             <a href="?pg=tambah-anggota" class="btn btn-primary">Tambah</a>
         </div>
