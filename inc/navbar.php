@@ -10,7 +10,7 @@
                         <a class="nav-link" href="?pg=user">Manage Accounts</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="?pg=anggota">Tambah Anggota</a>
+                        <a class="nav-link" href="?pg=anggota">Anggota</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="?pg=level">Level</a>
