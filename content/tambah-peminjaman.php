@@ -29,19 +29,10 @@ $id = isset($_GET['detail']) ? $_GET['detail'] : '';
 $queryPeminjam = mysqli_query($koneksi, "SELECT anggota.nama_anggota, peminjaman.* FROM peminjaman LEFT JOIN anggota ON anggota.id = peminjaman.id_anggota WHERE peminjaman.id = '$id'");
 $rowPeminjam = mysqli_fetch_assoc($queryPeminjam);
 
+//Detail Peminjaman Buku
+$queryDetailPinjam = mysqli_query($koneksi, "SELECT buku.nama_buku, detail_peminjaman.* FROM detail_peminjaman LEFT JOIN buku ON buku.id = detail_peminjaman.id_buku WHERE id_peminjaman = '$id'");
 
-//post edited data
-if (isset($_POST['edit'])) {
-    $nama_buku = $_POST['nama_buku'];
-    $penerbit = $_POST['penerbit'];
-    $tahun_terbit = $_POST['tahun_terbit'];
-    $pengarang = $_POST['pengarang'];
-    $id_kategori = $_POST['id_kategori'];
 
-    //update user, kolom apa yang mau diubah
-    $update = mysqli_query($koneksi, "UPDATE buku SET nama_buku='$nama_buku', penerbit='$penerbit', tahun_terbit='$tahun_terbit', pengarang='$pengarang', id_kategori='$id_kategori' WHERE id='$id'");
-    header("location:?pg=buku&ubah=berhasil");
-}
 
 
 //delete
@@ -89,17 +80,20 @@ $kode_pinjam = "PJM/" . date('dmy') . "/" . sprintf("%03s", $id_pinjam);
                         <input type="date" class="form-control" name="tgl_peminjaman"
                             value="<?php echo isset($_GET['detail']) ? $rowPeminjam['tgl_peminjaman'] : '' ?>" readonly>
                     </div>
-                    <div class="mb-3">
-                        <label for="" class="form-label">Nama Buku</label>
-                        <select required name="" id="id_buku" class="form-control">
-                            <option value="">Pilih Buku</option>
-                            <?php while ($rowBuku = mysqli_fetch_assoc($queryBuku)): ?>
-                                <option value="<?php echo $rowBuku['id'] ?>">
-                                    <?php echo $rowBuku['nama_buku']; ?>
-                                </option>
-                            <?php endwhile ?>
-                        </select>
-                    </div>
+
+                    <?php if (empty($_GET['detail'])): ?>
+                        <div class="mb-3">
+                            <label for="" class="form-label">Nama Buku</label>
+                            <select required name="" id="id_buku" class="form-control">
+                                <option value="">Pilih Buku</option>
+                                <?php while ($rowBuku = mysqli_fetch_assoc($queryBuku)): ?>
+                                    <option value="<?php echo $rowBuku['id'] ?>">
+                                        <?php echo $rowBuku['nama_buku']; ?>
+                                    </option>
+                                <?php endwhile ?>
+                            </select>
+                        </div>
+                    <?php endif ?>
                 </div>
                 <div class="col-sm-4">
                     <div class="mb-3">
@@ -129,23 +123,49 @@ $kode_pinjam = "PJM/" . date('dmy') . "/" . sprintf("%03s", $id_pinjam);
                 </div>
             </div>
 
-            <div align="right" class="mb-3">
-                <button type="button" id="add-row" class="btn btn-primary">Tambah Row</button>
-            </div>
+            <?php if (empty($_GET['detail'])): ?>
+                <div align="right" class="mb-3">
+                    <button type="button" id="add-row" class="btn btn-primary">Tambah Row</button>
+                </div>
+            <?php endif ?>
 
+            <!-- up, data dari query php -->
+            <?php if (!empty($_GET['detail'])): ?>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama Buku</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $no = 1;
+                        while ($rowDetailPeminjaman = mysqli_fetch_assoc($queryDetailPinjam)): ?>
+                            <tr>
+                                <td><?php echo $no++ ?></td>
+                                <td>
+                                    <?php echo $rowDetailPeminjaman['nama_buku'] ?>
+                                </td>
+                            </tr>
+                        <?php endwhile ?>
+                    </tbody>
+                </table>
+            <?php else: ?>
+                <!-- data from js -->
+                <table id="table" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Nama Buku</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-row"></tbody>
+                </table>
+                <div align="left" class="mb-3">
+                    <button type="submit" id="" name="simpan" class="btn btn-primary">Simpan</button>
+                </div>
+            <?php endif ?>
 
-            <table id="table" class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Nama Buku</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody class="table-row"></tbody>
-            </table>
-            <div align="left" class="mb-3">
-                <button type="submit" id="" name="simpan" class="btn btn-primary">Simpan</button>
-            </div>
         </form>
 
 
