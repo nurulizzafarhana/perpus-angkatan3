@@ -26,4 +26,8 @@ function deleteRow(button) {
   row.parentNode.removeChild(row);
 }
 
+// $("#id_peminjaman").change(function () {
+//   alert("Bisa lach");
+// });
+
 // $("#addRow").click(function () {}); jQuery
