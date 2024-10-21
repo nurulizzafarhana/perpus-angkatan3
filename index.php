@@ -88,6 +88,10 @@ include 'koneksi.php';
           let tanggal_di_kembalikan = new moment(currentDate);
           let selisih = tanggal_di_kembalikan.diff(tanggal_kembali, "days");
 
+          if (selisih < 0) {
+            selisih = 0;
+          }
+
           console.log("tgl", selisih)
 
           let biaya_denda = 10000;

@@ -1,24 +1,26 @@
 <?php
 if (isset($_POST['simpan'])) {
-    $no_peminjaman = $_POST['no_peminjaman'];
-    $id_anggota = $_POST['id_anggota'];
-    $tgl_peminjaman = $_POST['tgl_peminjaman'];
-    $tgl_pengembalian = $_POST['tgl_pengembalian'];
-    $id_buku = $_POST['id_buku'];
-    $status = "Dipinjam";
+    $id_peminjaman = $_POST['id_peminjaman'];
+    $queryPeminjam = mysqli_query($koneksi, "SELECT id, no_peminjaman FROM peminjaman WHERE no_peminjaman='$id_peminjaman'");
+    $rowPeminjam = mysqli_fetch_assoc($queryPeminjam);
+    $id_peminjaman = $rowPeminjam['id'];
+
+    $denda = $_POST['denda'];
+    if ($denda == 0) {
+        $status = 0;
+    } else {
+        $status = 1;
+    }
 
     //SQL
     // DML = Data Manipulation Language (select, update, delete, insert)
 
     //INSERT
-    $insert = mysqli_query($koneksi, "INSERT INTO peminjaman (no_peminjaman, id_anggota, tgl_peminjaman, tgl_pengembalian, status) VALUES ('$no_peminjaman', '$id_anggota', '$tgl_peminjaman', '$tgl_pengembalian', '$status')");
-    $id_peminjaman = mysqli_insert_id($koneksi);
-    foreach ($id_buku as $key => $buku) {
-        $buku = $_POST['id_buku'][$key];
+    $insert = mysqli_query($koneksi, "INSERT INTO pengembalian (id_peminjaman, status, denda) VALUES ('$id_peminjaman', '$status', '$denda')");
 
-        $insertDetail = mysqli_query($koneksi, "INSERT INTO detail_peminjaman (id_peminjaman, id_buku) VALUES ('$id_peminjaman', '$buku')");
-    }
-    header("location:?pg=peminjaman&tambah=berhasil");
+    $updatePeminjam = mysqli_query($koneksi, "UPDATE peminjaman SET status ='Dikembalikan' WHERE id='$id_peminjaman'");
+
+    header("location:?pg=pengembalian&tambah=berhasil");
 
 
 }
@@ -26,12 +28,12 @@ if (isset($_POST['simpan'])) {
 
 //EDIT
 //show filled form/existed data to be edited
-$id = isset($_GET['detail']) ? $_GET['detail'] : '';
-$queryPeminjam = mysqli_query($koneksi, "SELECT anggota.nama_anggota, peminjaman.* FROM peminjaman LEFT JOIN anggota ON anggota.id = peminjaman.id_anggota WHERE peminjaman.id = '$id'");
-$rowPeminjam = mysqli_fetch_assoc($queryPeminjam);
+// $id = isset($_GET['detail']) ? $_GET['detail'] : '';
+// $queryPeminjam = mysqli_query($koneksi, "SELECT anggota.nama_anggota, peminjaman.* FROM peminjaman LEFT JOIN anggota ON anggota.id = peminjaman.id_anggota WHERE peminjaman.id = '$id'");
+// $rowPeminjam = mysqli_fetch_assoc($queryPeminjam);
 
 //Detail Peminjaman Buku
-$queryDetailPinjam = mysqli_query($koneksi, "SELECT buku.nama_buku, detail_peminjaman.* FROM detail_peminjaman LEFT JOIN buku ON buku.id = detail_peminjaman.id_buku WHERE id_peminjaman = '$id'");
+// $queryDetailPinjam = mysqli_query($koneksi, "SELECT buku.nama_buku, detail_peminjaman.* FROM detail_peminjaman LEFT JOIN buku ON buku.id = detail_peminjaman.id_buku WHERE id_peminjaman = '$id'");
 
 
 
@@ -99,7 +101,7 @@ $queryKodePnjm = mysqli_query($koneksi, "SELECT * FROM peminjaman WHERE status =
                                         </div>
                                         <div class="mb-3">
                                             <label for="" class="form-label">Denda</label>
-                                            <input type="text" readonly id="denda" class="form-control">
+                                            <input type="text" readonly name="denda" id="denda" class="form-control">
                                         </div>
                                     </div>
 
