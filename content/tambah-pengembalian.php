@@ -97,6 +97,10 @@ $queryKodePnjm = mysqli_query($koneksi, "SELECT * FROM peminjaman WHERE status =
                                             <label for="" class="form-label">Tanggal Peminjaman</label>
                                             <input type="text" readonly id="tgl_peminjaman" class="form-control">
                                         </div>
+                                        <div class="mb-3">
+                                            <label for="" class="form-label">Denda</label>
+                                            <input type="text" readonly id="denda" class="form-control">
+                                        </div>
                                     </div>
 
                                     <div class="col-sm-6">
@@ -119,41 +123,19 @@ $queryKodePnjm = mysqli_query($koneksi, "SELECT * FROM peminjaman WHERE status =
 
 
             <!-- up, data dari query php -->
-            <?php if (!empty($_GET['detail'])): ?>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Nama Buku</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php $no = 1;
-                        while ($rowDetailPeminjaman = mysqli_fetch_assoc($queryDetailPinjam)): ?>
-                            <tr>
-                                <td><?php echo $no++ ?></td>
-                                <td>
-                                    <?php echo $rowDetailPeminjaman['nama_buku'] ?>
-                                </td>
-                            </tr>
-                        <?php endwhile ?>
-                    </tbody>
-                </table>
-            <?php else: ?>
-                <!-- data from js -->
-                <table id="table" class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Nama Buku</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table-row"></tbody>
-                </table>
-                <div align="left" class="mb-3">
-                    <button type="submit" id="" name="simpan" class="btn btn-primary">Simpan</button>
-                </div>
-            <?php endif ?>
+
+            <!-- data from js -->
+            <table id="table-pengembalian" class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Nama Buku</th>
+                    </tr>
+                </thead>
+                <tbody class="table-row"></tbody>
+            </table>
+            <div align="left" class="mb-3">
+                <button type="submit" id="" name="simpan" class="btn btn-primary">Simpan</button>
+            </div>
 
         </form>
 
